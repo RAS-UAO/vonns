@@ -1,0 +1,13 @@
+<launch>
+    <node pkg= "urg_node" type= "urg_node" name= "hokuyo"/>
+
+    <node pkg= "vonns" type= "ls_to_pc2_converter.py" name= "laserscan_to_pointcloud2"/>
+
+    <node pkg= "vonns" type= "tf_broadcaster.py" name= "transform_broadcaster" output= "screen"/>
+    <node pkg= "vonns" type= "tf_listener.py" name= "transform_listener"/>
+    
+    <include file="$(find vonns)/launch/pc2_lidar.launch"/>
+    <node pkg= "vonns" type= "pc2_assembler.py" name= "pointcloud2_assembler"/>
+
+    <node pkg= 'rviz' type= 'rviz' name='rviz' args="-d $(find vonns)/rviz/config_file.rviz"/>
+</launch>
